@@ -277,3 +277,9 @@ The internet solved communication.
 Trust coordination in digital exchange still remains fragmented.
 
 Trulicon is an attempt to improve that layer.
+
+```txt
+Founder & CEO: Nishit Samar aka. AlloyDark.
+Co-Founder & CFO: Naitik Kumar.
+Special Thanks to Shivam Kumar.
+```
