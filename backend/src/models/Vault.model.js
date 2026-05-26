@@ -1,39 +1,62 @@
-import mongoose from "mongoose"; // 1. Fixed typo here ("momgoose" -> "mongoose")
+import mongoose from "mongoose"; 
+import { randomString } from "../utils/stringUtils.js";
 
-const vaultSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    minLength: 1,
-    maxLength: 30,
-    default: "NewVault",
-  },
-  code: {
-    type: String,
-    unique: true,
-    required: true,
-    maxLength: 8,
-    minLength: 8,
-  },
-  members: { 
-    type: [
+const vaultSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      minLength: 1,
+      maxLength: 30,
+      default: () => randomString(8),
+    },
+    code: {
+      type: String,
+      unique: true,
+      required: true,
+      maxLength: 8,
+      minLength: 8,
+    },
+    members: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      validate: {
+        validator: function (val) {
+          return val.length <= 2;
+        },
+        message: "Max user limit reached",
+      },
+    },
+    assets: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Asset",
       },
     ],
-    validate: { 
-      validator: function (val) {
-        return val.length <= 2;
-      },
-      message: "Max user limit reached",
+    countdown:{
+      type: Number,
+      default: 1800, // In seconds
+    },
+    status: {
+      enum: [
+        "created",
+        "locked",
+        "preview",
+        "ready",
+        "swapping",
+        "success",
+        "killed",
+        "aborted",
+        "timeout",
+      ],
+      type: String,
+      default: "created",
     },
   },
-  assets: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Asset",
-    }
-  ]
-});
+  { timestamps: true },
+);
 
 export const Vault = mongoose.model("Vault", vaultSchema);

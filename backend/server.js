@@ -9,13 +9,20 @@ import userRouter from "./src/routes/user.route.js";
 import errMiddleware from "./src/middlewares/errorHandler.middleware.js";
 import cookieParser from "cookie-parser";
 
-import { recoverCredentials } from "./src/utils/recovery.js";
+// import { recoverCredentials } from "./src/utils/recovery.js";
+
+import { initSocket } from "./src/config/socket.js";
+import {createServer} from "http";
 
 const app = express();
 
+const httpServer = createServer(app);
+
+const io = initSocket(httpServer);
+
 const startServer = async () => {
   await connectDB();
-  console.log("Current Recovery Code:", recoverCredentials.code);
+  // console.log("Current Recovery Code:", recoverCredentials.code);
 
   // Pre middlewares
   app.use(express.json());
@@ -38,7 +45,7 @@ const startServer = async () => {
 
   const port = PORT || 3000;
 
-  app.listen(port, () => {
+  httpServer.listen(port, () => {
     console.log(`server listening on port: http://localhost:${port}`);
   });
 };
