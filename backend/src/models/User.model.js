@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
       minLength: 2,
       maxLength: 50,
       default: "Trulicon User",
+      index: true,
     },
     username: {
       type: String,
@@ -14,6 +15,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       minLength: 4,
       maxLength: 20,
+      index: true,
+    },
+    bio:{
+      type: String,
+      maxLength: 160,
     },
     email: {
       type: String,
@@ -71,6 +77,12 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+    ],
+    branches: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Branch",
+      }
     ],
     otp: {
       code: {

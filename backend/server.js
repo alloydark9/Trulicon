@@ -7,6 +7,8 @@ import connectDB from "./src/database/mongoDB.js";
 import userRouter from "./src/routes/user.route.js";
 
 import errMiddleware from "./src/middlewares/errorHandler.middleware.js";
+
+import protect from "./src/middlewares/auth.middleware.js";
 import cookieParser from "cookie-parser";
 
 // import { recoverCredentials } from "./src/utils/recovery.js";
@@ -41,7 +43,7 @@ const startServer = async () => {
   app.use("/api/v1/auth", authRouter);
 
   // User routes
-  app.use("/api/v1/users", userRouter);
+  app.use("/api/v1/users",protect, userRouter);
 
   const port = PORT || 3000;
 

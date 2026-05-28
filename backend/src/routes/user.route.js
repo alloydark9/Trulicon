@@ -1,9 +1,10 @@
 import {Router } from "express";
+import { getUsers, getUser} from "../controllers/user.controller.js";
 
 const userRouter = Router();
 
-userRouter.get("/", (req, res) => res.send({title: "Users"}));
-userRouter.get("/:id", (req, res) => res.send({title: "Trulicon user"}));
+userRouter.get("/",  getUsers);
+userRouter.get("/search", getUser);
 userRouter.post("/", (req, res) => res.send({title: "Created user"}));
 userRouter.put("/:id", (req, res) => res.send({title: "Update entire user"}));
 userRouter.patch("/:id", (req, res) => res.send({title: "Partially update user"}));
