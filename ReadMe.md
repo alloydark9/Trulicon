@@ -300,7 +300,7 @@ OR
 
 ---
 
-# Recommended MVP Stack
+## MVP Stack
 
 - React
 - Vite
