@@ -170,24 +170,153 @@ These are long-term possibilities and not current product commitments.
 
 # Technology Stack
 
-## Frontend
+## Development Stack
+
+### Frontend
 - React
-- TailwindCSS
+- Vite
+- Tailwind CSS
 - Framer Motion
-- Socket.io Client
 
-## Backend
+### Backend
 - Node.js
-- Express
+- Express.js
 - Socket.io
-- MongoDB
 
-## Infrastructure
-- AWS S3 / Object Storage
+### Database
+- MongoDB Community Server
+
+### Realtime / Cache
+- Redis
+
+### Object Storage
+- Cloudinary
+
+### Authentication
+- JWT
+- HTTP-only Cookies
+
+### Encryption
+- AES-256-GCM
+- Node.js Crypto Module
+
+### Emails
 - Resend
+
+### Containerization
+- Docker
+- Docker Compose
+
+### API Testing
+- Thunder client
+
+### Version Control
+- Git
+- GitHub
+
+### Validation & Security
+- Zod
+- Helmet.js
+- Arcjet
+- CORS
+
+---
+
+# Production Stack (Can change)
+
+### Frontend
+- React
+- Tailwind CSS
+- Framer Motion
+
+### Frontend Hosting
+- Vercel
+
+### Backend
+- Node.js
+- Express.js
+- Socket.io
+
+### Backend Hosting
+- AWS EC2
+OR
+- DigitalOcean
+OR
+- Hetzner
+
+### Reverse Proxy
+- Nginx
+
+### Database
+- MongoDB Atlas
+
+### Realtime / Cache
+- Redis Cloud
+
+### Object Storage
+- AWS S3
+OR
+- Cloudflare R2
+
+### CDN
 - Cloudflare
+
+### Authentication
+- JWT
+- HTTP-only Cookies
+- OAuth (Future)
+- Passkeys (Future)
+- 2FA (Future)
+
+### Encryption
+- AES-256-GCM
+
+### Emails
+- Resend
+
+### Containerization
 - Docker
 
+### Orchestration (Future Scaling)
+- Kubernetes
+OR
+- AWS ECS
+
+### Monitoring
+- Sentry
+- Grafana
+- Prometheus
+
+### CI/CD
+- GitHub Actions
+
+### Security
+- Helmet.js
+- Rate Limiting
+- Signed URLs
+- File Validation
+- HTTPS SSL
+- Cloudflare Protection
+
+---
+
+# Recommended MVP Stack
+
+- React
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Node.js
+- Express.js
+- Socket.io
+- MongoDB
+- Redis
+- MinIO
+- Docker
+- Docker Compose
+- JWT
+- Resend
+- AES-256 Encryption
 ---
 
 # Design Philosophy
