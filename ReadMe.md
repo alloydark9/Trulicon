@@ -222,7 +222,7 @@ These are long-term possibilities and not current product commitments.
 
 ---
 
-# Production Stack (Can change)
+## Production Stack (Can change)
 
 ### Frontend
 - React
