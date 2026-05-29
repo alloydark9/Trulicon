@@ -113,3 +113,22 @@ export const logout = (req, res) => {
     message: "Logout successful",
   });
 };
+
+export const getCurrentUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select(
+      "-password -phone -email",
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
