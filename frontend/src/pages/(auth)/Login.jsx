@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
 
-  const handlesubmit = () => {
-    // to buld
+  const handlesubmit = (e) => {
+    e.preventDefault();
+    
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6">
       <form
         action="/login"
         className="flex flex-col gap-4"
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handlesubmit}
       >
         <input
           type="value"
@@ -28,7 +29,6 @@ const Login = () => {
         <button
           type="submit"
           className="bg-blue-400 text-white cursor-pointer"
-          onClick={handlesubmit}
         >
           Login
         </button>

@@ -14,7 +14,9 @@ import cookieParser from "cookie-parser";
 // import { recoverCredentials } from "./src/utils/recovery.js";
 
 import { initSocket } from "./src/config/socket.js";
-import {createServer} from "http";
+import { createServer } from "http";
+
+import cors from "cors";
 
 const app = express();
 
@@ -25,6 +27,14 @@ const io = initSocket(httpServer);
 const startServer = async () => {
   await connectDB();
   // console.log("Current Recovery Code:", recoverCredentials.code);
+
+  // Cors configuration
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    }),
+  );
 
   // Pre middlewares
   app.use(express.json());
@@ -43,7 +53,7 @@ const startServer = async () => {
   app.use("/api/v1/auth", authRouter);
 
   // User routes
-  app.use("/api/v1/users",protect, userRouter);
+  app.use("/api/v1/users", protect, userRouter);
 
   const port = PORT || 3000;
 
