@@ -1,6 +1,7 @@
 // middlewares/auth.middleware.js
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
+import {JWT_SECRET} from "../config/env.js";
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -12,7 +13,7 @@ const authMiddleware = async (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     const user = await User.findById(decoded.id).select("-password");
 
