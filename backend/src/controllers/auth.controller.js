@@ -69,16 +69,17 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const { email, username, phone, password } = req.body;
+    const { validator, password } = req.body;
 
-    if (!password || (!email && !username && !phone)) {
+    if (!password || !validator) {
       return res
         .status(400)
         .json({ message: "Please provide valid credentials" });
     }
 
-    const query = email ? { email } : username ? { username } : { phone };
-    const user = await User.findOne(query).select("+password");
+    const user = await User.findOne({
+      $or: [{ email: validator }, { username: validator }, { phone: validator }],
+    }).select("+password");
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
