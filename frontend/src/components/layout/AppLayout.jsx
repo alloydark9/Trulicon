@@ -1,7 +1,11 @@
+import Sidebar from "../Sidebar";
+import Header from "../Header";
+
 export default function AppLayout({ children }) {
   return (
     <div className="app-layout">
-      <aside>Sidebar</aside>
+      <topbar><Header /></topbar>
+      <aside><Sidebar /></aside>
 
       <main>
         {children}
