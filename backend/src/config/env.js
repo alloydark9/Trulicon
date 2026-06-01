@@ -1,16 +1,6 @@
-import { config } from "dotenv";
+import {config} from "dotenv";
 
-config({ path: `.env.${process.env.NODE_ENV || "development"}.local` });
 
-export const {
-  PORT,
-  NODE_ENV,
-  MONGO_URI,
-  JWT_EXPIRES_IN,
-  JWT_SECRET,
-  ARCJET_ENV,
-  ARCJET_KEY,
-  COMPANY_NAME,
-  FOUNDER,
-  CO_FOUNDER,
-} = process.env;
+config({path: `.env.${process.env.NODE_ENV || 'development'}.local`});
+
+export const {PORT, NODE_ENV, MONGO_URI, JWT_EXPIRES_IN, JWT_SECRET} = process.env; 

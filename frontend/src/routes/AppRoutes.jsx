@@ -1,12 +1,11 @@
-import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { Routes, Route} from "react-router-dom";
+import {useEffect} from "react"
 
 import Welcome from "../pages/(auth)/Welcome";
 import Login from "../pages/(auth)/Login";
 import Register from "../pages/(auth)/Register";
 
 import Dashboard from "../pages/(app)/Dashboard";
-import Vault from "../pages/(app)/vault/Vault.$id";
 
 import Error from "../pages/(error)/Error";
 
@@ -20,11 +19,12 @@ import { getUser } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 
 export default function AppRoutes() {
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+  dispatch(getUser());
+}, [dispatch]);
   return (
     <Routes>
       {/* Public */}
@@ -54,16 +54,6 @@ export default function AppRoutes() {
           <ProtectedRoute>
             <AppLayout>
               <Dashboard />
-            </AppLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/app/vault/:id"
-        element={
-          <ProtectedRoute>
-            <AppLayout>
-              <Vault />
             </AppLayout>
           </ProtectedRoute>
         }
