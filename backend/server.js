@@ -1,10 +1,11 @@
 import express from "express";
 
 import { PORT } from "./src/config/env.js";
-import authRouter from "./src/routes/auth.route.js";
-
 import connectDB from "./src/database/mongoDB.js";
+
+import authRouter from "./src/routes/auth.route.js";
 import userRouter from "./src/routes/user.route.js";
+import vaultRouter from "./src/routes/vault.route.js";
 
 import errMiddleware from "./src/middlewares/errorHandler.middleware.js";
 import arcjetMiddleware from "./src/middlewares/arcjet.middleware.js";
@@ -13,6 +14,8 @@ import protect from "./src/middlewares/auth.middleware.js";
 import cookieParser from "cookie-parser";
 
 // import { recoverCredentials } from "./src/utils/recovery.js";
+
+import { FRONTEND_URL } from "./src/config/env.js";
 
 import { initSocket } from "./src/config/socket.js";
 import { createServer } from "http";
@@ -35,7 +38,7 @@ const startServer = async () => {
   // Cors configuration
   app.use(
     cors({
-      origin: "http://localhost:5173",
+      origin: FRONTEND_URL,
       credentials: true,
     }),
   );
@@ -56,6 +59,9 @@ const startServer = async () => {
 
   // User routes
   app.use("/api/v1/users", protect, userRouter);
+
+  // Vault routes
+  app.use("/api/v1/vaults", protect, vaultRouter);
 
   // Error middleware
   app.use(errMiddleware);

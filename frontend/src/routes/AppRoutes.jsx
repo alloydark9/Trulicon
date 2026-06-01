@@ -7,6 +7,8 @@ import Register from "../pages/(auth)/Register";
 
 import Dashboard from "../pages/(app)/Dashboard";
 
+import Vault from "../pages/(app)/Vault";
+
 import Error from "../pages/(error)/Error";
 
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -58,6 +60,13 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      {/* Vault Routes */}
+      <Route path="/vault" element={
+          <ProtectedRoute>
+              <Vault/>
+          </ProtectedRoute>
+        } />
 
       {/* 404 */}
       <Route path="*" element={<Error />} />

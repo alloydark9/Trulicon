@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+ import mongoose from "mongoose";
 
-const branchSchema = new mongoose.Schema(
+const collectionSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -36,3 +36,7 @@ const branchSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+
+const Collection = mongoose.model("Collection", collectionSchema);
+export default Collection;

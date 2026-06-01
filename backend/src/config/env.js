@@ -13,4 +13,5 @@ export const {
   COMPANY_NAME,
   FOUNDER,
   CO_FOUNDER,
+  FRONTEND_URL,
 } = process.env;

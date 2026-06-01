@@ -72,6 +72,10 @@ const userSchema = new mongoose.Schema(
         ref: "Vault",
       },
     ],
+    inVault:{
+      type: Boolean,
+      default: false,
+    },
     mates: [
       {
         type: mongoose.Schema.Types.ObjectId,

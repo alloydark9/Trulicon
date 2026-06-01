@@ -1,7 +1,11 @@
 import { Router } from "express";
-import { register, login, logout } from "../controllers/auth.controller.js";
+import {
+  register,
+  login,
+  logout,
+  getCurrentUser,
+} from "../controllers/auth.controller.js";
 import protect from "../middlewares/auth.middleware.js";
-import { getCurrentUser } from "../controllers/auth.controller.js";
 
 const authRouter = Router();
 
@@ -13,6 +17,5 @@ authRouter.post("/sign-in", login);
 authRouter.post("/sign-out", logout);
 // Path: /api/v1/auth/me
 authRouter.get("/me", protect, getCurrentUser);
-
 
 export default authRouter;

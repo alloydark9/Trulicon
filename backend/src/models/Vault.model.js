@@ -1,5 +1,5 @@
-import mongoose from "mongoose"; 
-import { randomString } from "../utils/stringUtils.js";
+import mongoose from "mongoose";
+import { randomString } from "../utils/helpers.js";
 
 const vaultSchema = new mongoose.Schema(
   {
@@ -15,6 +15,7 @@ const vaultSchema = new mongoose.Schema(
       required: true,
       maxLength: 8,
       minLength: 8,
+      index: true,
     },
     members: {
       type: [
@@ -25,7 +26,7 @@ const vaultSchema = new mongoose.Schema(
       ],
       validate: {
         validator: function (val) {
-          return val.length <= 2;
+          return val.length > 0 && val.length <= 2;
         },
         message: "Max user limit reached",
       },
@@ -36,27 +37,68 @@ const vaultSchema = new mongoose.Schema(
         ref: "Asset",
       },
     ],
-    countdown:{
-      type: Number,
-      default: 1800, // In seconds
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    expiresAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 30 * 60 * 1000),
     },
     status: {
       enum: [
         "created",
+        "uploaded",
         "locked",
         "preview",
-        "ready",
         "swapping",
         "success",
-        "killed",
         "aborted",
         "timeout",
       ],
       type: String,
       default: "created",
     },
+
+    participants: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        uploaded: {
+          type: Boolean,
+          default: false,
+        },
+        locked: {
+          type: Boolean,
+          default: false,
+        },
+        previewed: {
+          type: Boolean,
+          default: false,
+        },
+        swapConfirmed: {
+          type: Boolean,
+          default: false,
+        },
+        aborted: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
+
+    swap: {
+      startedAt: Date,
+      completedAt: Date,
+    },
   },
   { timestamps: true },
 );
 
-export const Vault = mongoose.model("Vault", vaultSchema);
+vaultSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+const Vault = mongoose.model("Vault", vaultSchema);
+export default Vault;
