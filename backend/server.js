@@ -7,6 +7,7 @@ import connectDB from "./src/database/mongoDB.js";
 import userRouter from "./src/routes/user.route.js";
 
 import errMiddleware from "./src/middlewares/errorHandler.middleware.js";
+import arcjetMiddleware from "./src/middlewares/arcjet.middleware.js";
 
 import protect from "./src/middlewares/auth.middleware.js";
 import cookieParser from "cookie-parser";
@@ -18,7 +19,10 @@ import { createServer } from "http";
 
 import cors from "cors";
 
+import helmet from "helmet";
+
 const app = express();
+app.use(helmet());
 
 const httpServer = createServer(app);
 
@@ -40,6 +44,7 @@ const startServer = async () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
+  app.use(arcjetMiddleware);
 
   // default route
   app.get("/", (req, res) => {
@@ -51,7 +56,7 @@ const startServer = async () => {
 
   // User routes
   app.use("/api/v1/users", protect, userRouter);
-  
+
   // Error middleware
   app.use(errMiddleware);
 
