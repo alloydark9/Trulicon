@@ -41,9 +41,6 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
 
-  // Error middleware
-  app.use(errMiddleware);
-
   // default route
   app.get("/", (req, res) => {
     res.send("Welcome to Trulicon.");
@@ -54,6 +51,9 @@ const startServer = async () => {
 
   // User routes
   app.use("/api/v1/users", protect, userRouter);
+  
+  // Error middleware
+  app.use(errMiddleware);
 
   const port = PORT || 3000;
 
