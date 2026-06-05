@@ -26,6 +26,13 @@ const errMiddleware = (err, req, res, next) => {
     error.statusCode = 400;
   }
 
+  // JWT Error
+  if (err.name === "JsonWebTokenError") {
+    error.message = err.message || "JWT error occurred";
+
+    error.statusCode = 400;
+  }
+
   // Invalid JSON
   if (err.type === "entity.parse.failed") {
     error.message = "Invalid JSON format provided";
@@ -39,13 +46,9 @@ const errMiddleware = (err, req, res, next) => {
   }
 
   // Auth Protection Errors
-  if (error.name === "JsonWebTokenError") {
-    return res.status(401).json({ message: "Invalid token" });
-  }
   if (error.name === "TokenExpiredError") {
-    return res
-      .status(401)
-      .json({ message: "Token expired, please login again" });
+    error.message = err.message || "Token has expired, please log in again";
+    error.statusCode = 401;
   }
 
   res.status(error.statusCode || 500).json({

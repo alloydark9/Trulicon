@@ -49,7 +49,7 @@ const startServer = async () => {
   app.use(cookieParser());
   app.use(arcjetMiddleware);
 
-  // default route
+  // Default route
   app.get("/", (req, res) => {
     res.send("Welcome to Trulicon.");
   });

@@ -1,7 +1,7 @@
 // middlewares/auth.middleware.js
 import jwt from "jsonwebtoken";
 import User from "../models/User.model.js";
-import {JWT_SECRET} from "../config/env.js";
+import { JWT_SECRET } from "../config/env.js";
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -12,7 +12,11 @@ const authMiddleware = async (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-
+    if (!token || token === "null" || token === "undefined") {
+      return res.status(401).json({
+        message: "Invalid token",
+      });
+    }
     const decoded = jwt.verify(token, JWT_SECRET);
 
     const user = await User.findById(decoded.id).select("-password");
@@ -23,7 +27,6 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-
     next(error);
   }
 };

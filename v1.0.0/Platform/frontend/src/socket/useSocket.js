@@ -1,9 +1,9 @@
 import socket from "../config/socket";
+import { vaultJoin } from "./events/vaultEvents";
 
 const registerSocketEvents = () => {
-  socket.emit("vault:join", {
-    vaultId: "123456",
-  });
+  vaultJoin(socket);
 };
 
 export default registerSocketEvents;
+

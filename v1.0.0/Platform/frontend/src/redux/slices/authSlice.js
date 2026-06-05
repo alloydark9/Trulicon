@@ -55,7 +55,7 @@ export const logout = createAsyncThunk("/auth/logout", async (_, thunkAPI) => {
 
 export const getUser = createAsyncThunk("/auth/me", async (_, thunkAPI) => {
   try {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     const response = await getCurrentUser(token);
 
@@ -87,7 +87,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isAuthenticated = true;
         state.authChecked = true;
-        sessionStorage.setItem("token", action.payload.data.token);
+        localStorage.setItem("token", action.payload.data.token);
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
@@ -105,7 +105,7 @@ const authSlice = createSlice({
         console.log(action.payload);
         state.isAuthenticated = true;
         state.authChecked = true;
-        sessionStorage.setItem("token", action.payload.data.token);
+        localStorage.setItem("token", action.payload.data.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -121,6 +121,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = null;
         state.isAuthenticated = false;
+        localStorage.removeItem("token");
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
