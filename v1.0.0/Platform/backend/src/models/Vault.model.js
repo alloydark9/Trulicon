@@ -22,15 +22,20 @@ const vaultSchema = new mongoose.Schema(
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
+          required: true,
         },
       ],
       validate: {
         validator: function (val) {
-          return val.length > 0 && val.length <= 2;
+          return val.length >= 1 && val.length <= 2;
         },
-        message: "Max user limit reached",
+        message: (props) =>
+          props.value.length === 0
+            ? "At least one member is required."
+            : "Max user limit reached (Maximum 2 members allowed).",
       },
     },
+
     assets: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -49,6 +54,7 @@ const vaultSchema = new mongoose.Schema(
     status: {
       enum: [
         "created",
+        "active",
         "uploaded",
         "locked",
         "preview",

@@ -3,9 +3,9 @@ import {vaultCreate, vaultJoin, getVault} from "../controllers/vault.controller.
 
 const vaultRouter= Router();
 
-vaultRouter.post("/vault/create", vaultCreate);
-vaultRouter.post("/vault/join/:code", vaultJoin);
-vaultRouter.get("/vault/:id", getVault);
+vaultRouter.post("/create", vaultCreate);
+vaultRouter.post("/join", vaultJoin);
+vaultRouter.get("/:id", getVault);
 
 
 export default vaultRouter;
