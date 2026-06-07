@@ -1,9 +1,11 @@
-import socket from "../config/socket";
-import { vaultJoin } from "./events/vaultEvents";
-
-const registerSocketEvents = () => {
-  vaultJoin(socket);
+export const joinVaultRoom = (socket, code) => {
+  socket.emit("vault:join", { code });
 };
 
-export default registerSocketEvents;
+export const subscribeVaultUpdates = (socket, callback) => {
+  socket.on("vault:updated", callback);
 
+  return () => {
+    socket.off("vault:updated", callback);
+  };
+};

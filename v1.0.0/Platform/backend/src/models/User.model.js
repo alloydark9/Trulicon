@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       maxLength: 20,
       index: true,
     },
-    bio:{
+    bio: {
       type: String,
       maxLength: 160,
     },
@@ -72,9 +72,10 @@ const userSchema = new mongoose.Schema(
         ref: "Vault",
       },
     ],
-    inVault:{
-      type: Boolean,
-      default: false,
+    currentVault: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vault",
+      default: null,
     },
     mates: [
       {
@@ -86,7 +87,7 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Branch",
-      }
+      },
     ],
     otp: {
       code: {

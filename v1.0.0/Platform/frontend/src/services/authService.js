@@ -12,7 +12,7 @@ export const logoutUser = () => {
   return axiosInstance.post("/auth/sign-out");
 };
 export const getCurrentUser = (token) => {
-  if(!token || token === "null" || token === "undefined") {
+  if (!token || token === "null" || token === "undefined") {
     return Promise.reject(new Error("Invalid token"));
   }
 

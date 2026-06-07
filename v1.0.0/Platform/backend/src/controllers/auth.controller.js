@@ -128,7 +128,13 @@ export const getCurrentUser = async (req, res, next) => {
       });
     }
 
-    return res.json(user);
+    return res.json({
+      success: true,
+      message: "User found successfully",
+      data:{
+        user,
+      }
+    });
   } catch (error) {
     next(error);
   }

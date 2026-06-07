@@ -1,15 +1,22 @@
-export const vaultJoin = (socket) => {
-  const handleJoined = (data) => {
-    console.log("Joined:", data);
-  };
+import { useEffect } from "react";
+import socket from "../../config/socket";
+import {
+  joinVaultRoom,
+  subscribeVaultUpdates,
+} from "../useSocket";
 
-  socket.on("vault:state", handleJoined);
+const useVaultSocket = (currentVault, onUpdate) => {
+  useEffect(() => {
+    if (!currentVault?.code) return;
 
-  socket.emit("vault:join", {
-    vaultId: "123456",
-  });
+    joinVaultRoom(socket, currentVault.code);
 
-  return () => {
-    socket.off("vault:joined", handleJoined);
-  };
+    const cleanup = subscribeVaultUpdates(socket, onUpdate);
+
+    return () => {
+      cleanup();
+    };
+  }, [currentVault?.code, onUpdate]);
 };
+
+export default useVaultSocket;

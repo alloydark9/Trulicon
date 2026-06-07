@@ -4,13 +4,47 @@ export const getUsers = async (req, res, next) => {
   try {
     const users = await User.find().select("-password -phone");
 
-    res.status(200).json(users);
+    if (!users) {
+      res.status(404).json({
+        success: false,
+        message: "Unable to fetch users",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Fetched all users successfully",
+      data: {
+        users,
+      },
+    });
   } catch (error) {
     next(error);
   }
 };
 
 export const getUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select("-password -phone -email");
+
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "Cannot find user by that id" });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserBySearch = async (req, res, next) => {
   try {
     const { search } = req.query;
 
@@ -123,7 +157,19 @@ export const getUser = async (req, res, next) => {
       },
     ]);
 
-    res.status(200).json(users);
+    if(!users || users.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No users found matching the search criteria",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        users,
+      },
+    });
   } catch (error) {
     next(error);
   }

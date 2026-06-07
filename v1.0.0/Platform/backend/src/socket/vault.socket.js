@@ -1,15 +1,9 @@
 const registerVaultEngine = (io, socket) => {
-  socket.on("vault:join", async ({ vaultId }) => {
+  socket.on("vault:join", async ({ code }) => {
     try {
-      socket.join(vaultId);
+      socket.join(code);
 
-      console.log(
-        `Socket ${socket.id} joined vault room ${vaultId}`
-      );
-
-      socket.emit("vault:state", {
-        vaultId,
-      });
+      console.log(`Socket ${socket.id} joined vault room ${code}`);
 
     } catch (error) {
       socket.emit("vault:error", {

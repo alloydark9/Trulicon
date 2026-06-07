@@ -1,17 +1,19 @@
-import User from "../models/Vault.model.js";
+import User from "../models/User.model.js";
 import Vault from "../models/Vault.model.js";
 import { randomString } from "../utils/helpers.js";
+import { getIO } from "../config/socket.js";
 
 export const vaultCreate = async (req, res, next) => {
   try {
     const { name } = req.body;
-    let code = randomString(8);
-    const exists = await Vault.findOne(code);
-    while (exists) {
-      code = randomString();
-    }
+    let code;
+    let exists;
+    do {
+      code = randomString(8);
+      exists = await Vault.findOne({ code });
+    } while (exists);
+
     const currentUser = req.user?.id;
-    console.log(currentUser);
 
     const newVault = await Vault.create([
       {
@@ -40,12 +42,13 @@ export const vaultJoin = async (req, res, next) => {
   try {
     const { code } = req.body;
     const currentUser = req.user?.id;
+    const io = getIO();
 
     const vault = await Vault.findOneAndUpdate(
       { code },
       {
         $addToSet: { members: currentUser },
-        $set: {status: "active"}
+        $set: { status: "active" },
       },
       {
         new: true,
@@ -53,19 +56,68 @@ export const vaultJoin = async (req, res, next) => {
       },
     );
 
-    if (!vault)
+    if (!vault) {
       return res
         .status(404)
         .json({ message: "Cannot find vault by that code" });
+    }
+    io.to(vault.code).emit("vault:updated");
 
     res.status(201).json({
       success: true,
-      vault,
+      data: {
+        vault,
+      },
     });
   } catch (error) {
     next(error);
   }
 };
 
+export const getVault = async (req, res, next) => {
+  try {
+    const { code } = req.params;
 
-export const getVault = async () => {};
+    const vault = await Vault.findOne({ code });
+
+    if (!vault) {
+      return res.status(404).json({
+        success: false,
+        message: "Cannot find vault by that code",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        vault,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getVaultById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const vault = await Vault.findById(id);
+
+    if (!vault) {
+      return res.status(404).json({
+        success: false,
+        message: "Cannot find vault by that id",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        vault,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
