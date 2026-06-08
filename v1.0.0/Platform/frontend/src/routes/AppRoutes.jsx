@@ -62,7 +62,7 @@ export default function AppRoutes() {
 
       {/* Vault Routes */}
       <Route
-        path="/vault"
+        path="/vault/:code"
         element={
           <ProtectedRoute>
             <Vault />

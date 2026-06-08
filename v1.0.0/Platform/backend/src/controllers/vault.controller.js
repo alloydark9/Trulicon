@@ -5,13 +5,15 @@ import { getIO } from "../config/socket.js";
 
 export const vaultCreate = async (req, res, next) => {
   try {
-    const { name } = req.body;
+    let { name } = req.body;
     let code;
     let exists;
     do {
       code = randomString(8);
       exists = await Vault.findOne({ code });
     } while (exists);
+
+    if(name==="undefined" || name===null || name==="") name=randomString(16);
 
     const currentUser = req.user?.id;
 
@@ -25,6 +27,18 @@ export const vaultCreate = async (req, res, next) => {
     ]);
 
     const vault = newVault[0].toObject();
+
+   
+    const user = await User.findByIdAndUpdate(
+      currentUser,
+      {
+        $addToSet: { vaults: vault?._id },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
     res.status(201).json({
       success: true,
@@ -49,6 +63,16 @@ export const vaultJoin = async (req, res, next) => {
       {
         $addToSet: { members: currentUser },
         $set: { status: "active" },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    const user = await User.findByIdAndUpdate(
+      currentUser,
+      {
+        $addToSet: { vaults: vault?._id },
       },
       {
         new: true,

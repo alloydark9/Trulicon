@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
-import { randomString } from "../utils/helpers.js";
 
 const vaultSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      minLength: 1,
       maxLength: 30,
-      default: () => randomString(8),
+      required: true,
     },
     code: {
       type: String,

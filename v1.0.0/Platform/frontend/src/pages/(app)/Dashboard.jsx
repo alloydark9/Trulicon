@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import VaultPopup from "../../components/VaultPopup";
-import { useState} from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/slices/authSlice";
 import { vaultCreate, vaultJoin } from "../../redux/slices/vaultSlice";
@@ -12,7 +12,6 @@ const Dashboard = () => {
   const [isWannaJoin, setIsWannaJoin] = useState(false);
   const { loading, error } = useSelector((state) => state.vault);
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
 
   const [inputData, setInputData] = useState({
     vaultName: "",
@@ -36,7 +35,7 @@ const Dashboard = () => {
 
   const clickCreate = () => {
     setIsWannaJoin(false);
-  };
+  }
 
   const handleSubmit = async () => {
     let result;
@@ -45,7 +44,14 @@ const Dashboard = () => {
     } else {
       result = await dispatch(vaultCreate({ name: inputData.vaultName }));
     }
-    if (vaultCreate.fulfilled.match(result) || vaultJoin.fulfilled.match(result)) navigate("/vault");
+
+    if (
+      vaultCreate.fulfilled.match(result) ||
+      vaultJoin.fulfilled.match(result)
+    ) {
+      let vaultCode = result.payload.data.vault?.code;
+      navigate(`/vault/${vaultCode}`);
+    }
   };
 
   const logoutUser = async () => {
@@ -63,7 +69,9 @@ const Dashboard = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center flex-col gap-5">
-      <h1 className="text-3xl font-bold">{user?.data?.user?.name}'s Dashboard</h1>
+      <h1 className="text-3xl font-bold">
+        {user?.data?.user?.name}'s Dashboard
+      </h1>
       <button
         onClick={handlePopup}
         className="bg-blue-400 text-white cursor-pointer w-auto h-auto p-2"
