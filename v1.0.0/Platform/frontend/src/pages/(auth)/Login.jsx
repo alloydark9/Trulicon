@@ -48,7 +48,7 @@ const Login = () => {
     const result = await dispatch(
       login({
         validator: formData.validator,
-        password: formData.password,
+        password: formData.password
       }),
     );
 
