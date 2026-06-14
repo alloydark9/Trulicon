@@ -7,8 +7,6 @@ const Register = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [selectedGender, setSelectedDate] = useState(null);
-
     const [formData, setFormData] = useState({
         name: "",
         email: "",
