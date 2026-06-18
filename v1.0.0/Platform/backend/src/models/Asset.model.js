@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import { randomString } from "../utils/helpers.js";
 
 const assetSchema = new mongoose.Schema(
   {
     type: {
-      enum: ["image", "video", "audio", "document", "other"],
+      enum: ["image", "video", "audio", "document", "money", "other"],
       type: String,
       required: true,
     },
@@ -13,18 +12,22 @@ const assetSchema = new mongoose.Schema(
       required: true,
     },
     size:{
-      type: String,
+      type: Number,
       required: true,
+    },
+    localPath:{
+      type: String,
+      default: null,
     },
     url: {
       type: String,
-      required: true,
+      default: null,
     },
     name: {
       type: String,
-      default: () => randomString(10),
       minLength: 1,
       maxLength: 100 ,
+      required: true
     },
     originalOwner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,8 +39,19 @@ const assetSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    vault:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vault",
+      // required: true,
+    },
+    status:{
+      enum: ["uploaded", "locked", "swapped"],
+      type: String,
+      default: "uploaded"
+    }
   },
   { timestamps: true },
 );
 
 export const Asset = mongoose.model("Asset", assetSchema);
+export default Asset;

@@ -6,6 +6,7 @@ import connectDB from "./src/database/mongoDB.js";
 import authRouter from "./src/routes/auth.route.js";
 import userRouter from "./src/routes/user.route.js";
 import vaultRouter from "./src/routes/vault.route.js";
+import assetRouter from "./src/routes/asset.route.js";
 
 import errMiddleware from "./src/middlewares/errorHandler.middleware.js";
 import arcjetMiddleware from "./src/middlewares/arcjet.middleware.js";
@@ -49,6 +50,8 @@ const startServer = async () => {
   app.use(cookieParser());
   app.use(arcjetMiddleware);
 
+  app.use('/uploads', express.static('uploads'));
+
   // Default route
   app.get("/", (req, res) => {
     res.send("Welcome to Trulicon.");
@@ -62,6 +65,9 @@ const startServer = async () => {
 
   // Vault routes
   app.use("/api/v1/vaults", protect, vaultRouter);
+  
+  // asset routes
+  app.use("/api/v1/assets", protect, assetRouter)
 
   // Error middleware
   app.use(errMiddleware);
