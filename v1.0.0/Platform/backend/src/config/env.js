@@ -14,4 +14,8 @@ export const {
   FOUNDER,
   CO_FOUNDER,
   FRONTEND_URL,
+  CLOUD_NAME,
+CLOUD_API_KEY,
+CLOUD_API_SECRET,
+  ENCODE_PASS,
 } = process.env;

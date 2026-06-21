@@ -6,6 +6,7 @@ const assetSchema = new mongoose.Schema(
       enum: ["image", "video", "audio", "document", "money", "other"],
       type: String,
       required: true,
+      default: "other",
     },
     format: {
       type: String,
@@ -45,9 +46,9 @@ const assetSchema = new mongoose.Schema(
       // required: true,
     },
     status:{
-      enum: ["uploaded", "locked", "swapped"],
+      enum: ["draft", "locked", "swapped"],
       type: String,
-      default: "uploaded"
+      default: "draft",
     }
   },
   { timestamps: true },

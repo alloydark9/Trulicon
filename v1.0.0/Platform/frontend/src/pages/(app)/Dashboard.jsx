@@ -39,6 +39,7 @@ const Dashboard = () => {
 
   const handleSubmit = async () => {
     let result;
+    console.log("btn clicked")
     if (isWannaJoin) {
       result = await dispatch(vaultJoin({ code: inputData.vaultCode }));
     } else {
