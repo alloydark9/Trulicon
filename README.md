@@ -409,6 +409,5 @@ Trulicon is an attempt to improve that layer.
 
 ```txt
 Founder & CEO: Nishit Samar aka. AlloyDark.
-Co-Founder & CFO: Naitik Kumar.
-Special Thanks to Shivam Kumar.
+Special Thanks to Shivam Kumar & Natik Kumar.
 ```
