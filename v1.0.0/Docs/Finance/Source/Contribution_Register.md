@@ -8,7 +8,7 @@
 Email: shiv.turki1115@gmail.com
 
 #### 2. Naitik Kumar
-Email: nishuuuyrr@gmail.com
+Email: nishuuuxyr@gmail.com
 
 ### Contributions
 
