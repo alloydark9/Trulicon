@@ -1,4 +1,5 @@
 import express from "express";
+import statusMonitor from "express-status-monitor";
 
 import { PORT } from "./src/config/env.js";
 import connectDB from "./src/database/mongoDB.js";
@@ -30,6 +31,7 @@ import cron from "node-cron";
 
 const app = express();
 app.use(helmet());
+// app.use(statusMonitor())
 
 const httpServer = createServer(app);
 

@@ -2,7 +2,7 @@ import Vault from "../models/Vault.model.js";
 import Asset from "../models/Asset.model.js";
 import path from "path";
 import { fileTypeFromFile } from "file-type";
-import { encryptFile, decryptFile } from "../utils/encode.js";
+import { encryptFileStream } from "../utils/encode.js";
 import { ENCODE_PASS } from "../config/env.js";
 import { uploadToCloudinary } from "../config/cloudinary.js";
 import fs from "fs";
@@ -42,7 +42,7 @@ export const uploadAsset = async (req, res, next) => {
                     type = "document";
                 }
 
-                const encryptedFile = encryptFile(file.path, ENCODE_PASS);
+                const encryptedFileStream = encryptFileStream(file.path, ENCODE_PASS);
 
                 return {
                     name: file.originalname,
